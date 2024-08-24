@@ -1,0 +1,29 @@
+TEMA: PROGRAMACION DE SOCKET
+Se pide que desarrollen una aplicación Cliente/Servidor, que sea programada manipulando la
+API de Socket, para ello deben tener en cuenta:
+
+- Lenguaje de programación: Python
+
+- Interface Gráfica: no es necesaria
+
+- Tipo de Conexión: TCP y UDP (ambas)
+
+- Tipo de Servidor: Concurrente
+
+- Conexión: cada extremo de la conexión (cliente y servidor) deberán ser 
+ejecutadas en host diferentes.
+
+- Tarea del Servidor: trivial y a su elección. Por ejemplo, el servidor podría devolver un
+eco, la hora, un saludo, etc.
+
+- Se pueden usar los ejemplos de Kurose, pero cada trabajo debe tener algún valor
+agregado a los ejemplos que se usa en ese libro.
+
+
+Método de evaluación: se presenta en grupo. Cada integrante del grupo deberá tener
+conocimiento de la forma en la cual trabaja la API de Socket. Para ello deberá explicar cada
+una de las invocaciones y sus resultados.
+
+Día de Evaluación: (deberán estar presente todos los integrantes del grupo)
+- Tecnicatura: martes 27 de agosto, 18 hs.
+- Licenciaturas: jueves 29 de agosto, 16 hs.
