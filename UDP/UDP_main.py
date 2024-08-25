@@ -17,14 +17,14 @@ if __name__ == '__main__':
         match opcion:
             case "1":
                 os.system("cls")
-                tcp_server_path = Path(__file__).parent / "TCP_Server.py"
-                subprocess.Popen(['start', 'cmd', '/k', f'python {tcp_server_path}'], shell=True)
+                udp_server_path = Path(__file__).parent / "UDP_Server.py"
+                subprocess.Popen(['start', 'cmd', '/k', f'python {udp_server_path}'], shell=True)
             case "2":
                 os.system("cls")
                 num=input("¿Cuantos clientes deseas conectar?: ")
                 for i in range(int(num)):
-                    tcp_client_path = Path(__file__).parent / "TCP_Client.py"
-                    subprocess.Popen(['start', 'cmd', '/k', f'python {tcp_client_path}'], shell=True)
+                    udp_client_path = Path(__file__).parent / "UDP_Client.py"
+                    subprocess.Popen(['start', 'cmd', '/k', f'python {udp_client_path}'], shell=True)
                 os.system("cls")
             case "3":
                 sys.exit()

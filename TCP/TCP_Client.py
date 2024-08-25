@@ -4,7 +4,7 @@ def tcp_client():
     HOST = input("Ingrese la direccion del host: ")
     PORT = int(input("Ingrese el puerto: ")) 
     ADDR = (HOST, PORT)
-    BUFSIZ = 4096 # MTU de la red, tamaño de los paquetes de datos que se envian por la red
+    BUFSIZ = 1024
 
     try:
         client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #crea un socket de conexion
@@ -13,20 +13,19 @@ def tcp_client():
         print(client_sock.recv(BUFSIZ).decode('utf-8')) #recibe un mensaje del servidor
 
         while True:
-            print(client_sock.recv(BUFSIZ).decode('utf-8')) #recibe un mensaje del servidor
+            print(client_sock.recv(BUFSIZ).decode('utf-8')) 
             opcion = input("Ingrese una opcion: ")
-            client_sock.send(opcion.encode('utf-8')) #envia un mensaje al servidor
+            client_sock.send(opcion.encode('utf-8')) 
 
             if opcion == '1':
                 operacion = input("Ingrese la operacion: ")
-                client_sock.send(operacion.encode('utf-8')) #envia un mensaje al servidor
-                print(client_sock.recv(BUFSIZ).decode('utf-8')) #recibe un mensaje del servidor
+                client_sock.send(operacion.encode('utf-8'))
+                print(client_sock.recv(BUFSIZ).decode('utf-8')) 
             elif opcion == '2':
-                print(client_sock.recv(BUFSIZ).decode('utf-8')) #recibe un mensaje del servidor
+                print(client_sock.recv(BUFSIZ).decode('utf-8'))
             elif opcion == '3':
                 print('Conexión cerrada')
                 break
-
     except Exception as e:
         print('Error:', e)
         return
