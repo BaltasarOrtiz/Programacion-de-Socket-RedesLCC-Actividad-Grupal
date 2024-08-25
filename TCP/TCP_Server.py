@@ -2,41 +2,53 @@ import socket
 from time import ctime
 import threading
 
+HOST = 'localhost'
+PORT = 21567
+
 def handle_client(client_sock, addr):
     BUFSIZ = 1024  # Tamaño de los paquetes de datos
-    print('...conexión desde:', addr)  # Imprime la dirección del cliente
+    print('Informacion recibida desde el cliente: ', client_sock.recv(BUFSIZ).decode('utf-8'))
+    client_sock.send('\nHola soy el servidor "{}:{}" '.format(HOST,PORT).encode('utf-8'))
 
-    while True:  # Bucle para enviar y recibir datos
-        data = client_sock.recv(BUFSIZ)  # Recibe los datos del cliente
-        if not data or data.decode('utf-8') == 'END':  # Si no hay datos o se recibe 'END',
+    while True:
+        client_sock.send('\n----Menu----\n'.encode('utf-8'))
+        client_sock.send('1. Realizar operación\n2. Obtener hora del servidor\n3. Salir'.encode('utf-8'))
+        client_sock.send('\n------------\n'.encode('utf-8'))
+        opcion = client_sock.recv(BUFSIZ).decode('utf-8')
+
+        if opcion == '1':
+            operacion = client_sock.recv(BUFSIZ).decode('utf-8')
+            try:
+                resultado = eval(operacion)
+            except Exception as e:
+                resultado = f'Error: {e}'
+            client_sock.send(f'Respuesta [{resultado}]'.encode('utf-8'))
+
+        elif opcion == '2':
+            client_sock.send(f'La hora del servidor es: {ctime()}'.encode('utf-8'))
+        elif opcion == '3':
+            print(f'Conexión cerrada con {addr}')
             break
-        print('Recibido:', data.decode('utf-8'))
-        print('Enviando hora del servidor al cliente... {}'.format(ctime()))
-        try:
-            client_sock.send(ctime().encode('utf-8'))
-        except Exception as e:
-            print('Error:', e)
+        else:
+            client_sock.send('Opción no válida'.encode('utf-8'))
         
-    client_sock.close()  # Cierra la conexión con el cliente
-    print(f'Conexión cerrada con {addr}')
+    client_sock.close()
 
 def tcp_server():
-    HOST = 'localhost'  # localhost
-    PORT = 21567  # puerto de conexión
     ADDR = (HOST, PORT)  # dirección de conexión
-
-    server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Crea un socket de conexión
-    server_sock.bind(ADDR)  # Asigna la dirección al socket
-    server_sock.listen(5)  # Escucha hasta 5 conexiones
-    server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Reutiliza la dirección
-
-    print('Esperando conexión...')
-    while True:
-        client_sock, addr = server_sock.accept()  # Acepta la conexión
-        print(f'Nueva conexión aceptada de {addr}')
-        # Crea un nuevo hilo para manejar la conexión del cliente
-        client_thread = threading.Thread(target=handle_client, args=(client_sock, addr))
-        client_thread.start()
+    try:
+        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Crea un socket de conexión
+        server_sock.bind(ADDR)  # Asigna la dirección al socket
+        server_sock.listen(5)  # Escucha hasta 5 conexiones
+        server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Reutiliza la dirección
+        print('Esperando conexión...')
+        while True:
+            client_sock, addr = server_sock.accept()  # Acepta la conexión, diseño bloqueante
+            client_thread = threading.Thread(target=handle_client, args=(client_sock, addr)) # Crea un nuevo hilo para manejar la conexión del cliente
+            client_thread.start()
+    except Exception as e:
+        print('Error', e)
+        return
 
     server_sock.close()  # Cierra el socket del servidor
         

@@ -12,8 +12,7 @@ def menu():
 
 if __name__ == '__main__':
     os.system("cls")
-    while True:
-        
+    while True:  
         opcion = menu()
         match opcion:
             case "1":
@@ -22,11 +21,11 @@ if __name__ == '__main__':
                 subprocess.Popen(['start', 'cmd', '/k', f'python {tcp_server_path}'], shell=True)
             case "2":
                 os.system("cls")
-                print("--- Cliente TCP ---")
-                num=input("Cuantos clientes deseas conectar?: ")
+                num=input("¿Cuantos clientes deseas conectar?: ")
                 for i in range(int(num)):
                     tcp_client_path = Path(__file__).parent / "TCP_Client.py"
                     subprocess.Popen(['start', 'cmd', '/k', f'python {tcp_client_path}'], shell=True)
+                os.system("cls")
             case "3":
                 sys.exit()
             case _:
