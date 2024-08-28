@@ -2,11 +2,10 @@ import time
 import socket
 import threading
 
-HOST = 'localhost'
-PORT = 12345
 
 def cliente_udp():
-
+    HOST = input("Ingrese la dirección del host: ")
+    PORT = int(input("Ingrese el puerto: "))
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     client_socket.settimeout(10)
 
@@ -19,13 +18,11 @@ def cliente_udp():
             opcion = input("Elige una opción: ")
 
             if opcion == '1':
-                # Enviar solicitud para obtener la hora
                 mensaje = 'HORA'
                 client_socket.sendto(mensaje.encode('utf-8'), (HOST, PORT))
                 data, server = client_socket.recvfrom(1024)
                 print(data.decode('utf-8'))
             elif opcion == '2':
-                # Solicitar la operacion
                 operacion = input("Ingrese la operacion: ")
                 mensaje = f'OPERACION {operacion}'
                 client_socket.sendto(mensaje.encode('utf-8'), (HOST,PORT))

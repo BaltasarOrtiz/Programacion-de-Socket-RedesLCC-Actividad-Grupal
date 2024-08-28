@@ -1,5 +1,4 @@
 import socket
-import threading
 import time
 from time import ctime
 
@@ -11,11 +10,9 @@ def handle_client(data, addr, server_socket):
     
     mensaje = data.decode('utf-8')
     if mensaje.startswith('HORA'):
-        # Enviar la hora actual
         respuesta = f"Hora actual: {time.strftime('%Y-%m-%d %H:%M:%S')}"
         server_socket.sendto(respuesta.encode(), addr)
     elif mensaje.startswith('OPERACION'):
-        # Procesar la operación matemática
         try:
             operacion = mensaje.split(' ', 1)[1]
             resultado = eval(operacion)
@@ -25,7 +22,6 @@ def handle_client(data, addr, server_socket):
         
         server_socket.sendto(respuesta.encode(), addr)
     else:
-        # Comando no reconocido
         respuesta = "Comando no reconocido"
         server_socket.sendto(respuesta.encode(), addr)
 
@@ -37,7 +33,7 @@ def servidor_udp():
 
     while True:
         data, ADDR = server_socket.recvfrom(1024)
-        threading.Thread(target=handle_client, args=(data, ADDR, server_socket)).start()
+        handle_client(data, ADDR, server_socket)
 
 if __name__ == "__main__":
     servidor_udp()

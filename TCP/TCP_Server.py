@@ -1,6 +1,5 @@
 import socket
 from time import ctime
-import threading
 
 HOST = 'localhost'
 PORT = 21567
@@ -35,22 +34,21 @@ def handle_client(client_sock, addr):
 
 
 def tcp_server():
-    ADDR = (HOST, PORT)  # dirección de conexión
+    ADDR = (HOST, PORT)
     try:
-        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Crea un socket de conexión
-        server_sock.bind(ADDR)  # Asigna la dirección al socket
-        server_sock.listen(5)  # Escucha hasta 5 conexiones
-        server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Reutiliza la dirección
+        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_sock.bind(ADDR)
+        server_sock.listen(5)
+        server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  
         print('Esperando conexión...')
         while True:
-            client_sock, addr = server_sock.accept()  # Acepta la conexión, diseño bloqueante
-            client_thread = threading.Thread(target=handle_client, args=(client_sock, addr)) # Crea un nuevo hilo para manejar la conexión del cliente
-            client_thread.start()
+            client_sock, addr = server_sock.accept()
+            handle_client(client_sock, addr)
     except Exception as e:
         print('Error', e)
+        server_sock.close() 
         return
 
-    server_sock.close()  # Cierra el socket del servidor
         
 
 if __name__ == '__main__':

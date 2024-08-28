@@ -7,10 +7,10 @@ def tcp_client():
     BUFSIZ = 1024
 
     try:
-        client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #crea un socket de conexion
-        client_sock.connect(ADDR) #se conecta al servidor
-        client_sock.send("Hola soy el cliente: {}".format(client_sock.getsockname()).encode('utf-8')) #envia un mensaje al servidor
-        print(client_sock.recv(BUFSIZ).decode('utf-8')) #recibe un mensaje del servidor
+        client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_sock.connect(ADDR)
+        client_sock.send("Hola soy el cliente: {}".format(client_sock.getsockname()).encode('utf-8'))
+        print(client_sock.recv(BUFSIZ).decode('utf-8'))
 
         while True:
             print(client_sock.recv(BUFSIZ).decode('utf-8')) 
