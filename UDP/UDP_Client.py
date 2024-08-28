@@ -6,10 +6,10 @@ import threading
 def cliente_udp():
     HOST = input("Ingrese la dirección del host: ")
     PORT = int(input("Ingrese el puerto: "))
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client_socket.settimeout(10)
-
     try:
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        client_socket.settimeout(10)
+
         while True:
             print("\n--- Menú ---")
             print("1. Obtener hora del servidor")
@@ -32,11 +32,11 @@ def cliente_udp():
                 break
             else:
                 print("Opción no válida, intenta de nuevo.")
-    
-    except socket.timeout:
-        print("Error: Tiempo de espera agotado.")
+    except Exception as e:
+        print(f"Ha ocurrido un error: {e}")
     finally:
         client_socket.close()
+        return
 
 if __name__ == "__main__":
     cliente_udp()

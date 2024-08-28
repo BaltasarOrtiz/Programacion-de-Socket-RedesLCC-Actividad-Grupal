@@ -26,15 +26,20 @@ def handle_client(data, addr, server_socket):
         server_socket.sendto(respuesta.encode(), addr)
 
 def servidor_udp():
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_socket.bind((HOST, PORT))
-    server_socket.listen(5)
-    
-    print("Servidor en marcha, esperando conexiones...")
+    try:
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        server_socket.bind((HOST, PORT))
+        
+        print("Servidor en marcha, esperando conexiones...")
 
-    while True:
-        data, ADDR = server_socket.recvfrom(1024)
-        handle_client(data, ADDR, server_socket)
+        while True:
+            data, ADDR = server_socket.recvfrom(1024)
+            handle_client(data, ADDR, server_socket)
+    except Exception as e:
+        print(f"Error en el servidor: {e}")
+    finally:
+        server_socket.close()
+        return
 
 if __name__ == "__main__":
     servidor_udp()
