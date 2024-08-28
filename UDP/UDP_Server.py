@@ -28,6 +28,7 @@ def handle_client(data, addr, server_socket):
 def servidor_udp():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_socket.bind((HOST, PORT))
+    server_socket.listen(5)
     
     print("Servidor en marcha, esperando conexiones...")
 
